@@ -22,9 +22,7 @@ As the development of robotics progress, the increasing need for automation brin
 + Smell/Olfaction
 + Balance/Vestibular Sense: Human sense of balance comes from the vestibular system in our ear. Three semicircular canals enables the sense of turning of head in three different directions; the otolith organs detects the change of linear movement. [[2]](#2) Robots can be equipped with accelerometers and gyroscopes to detect the six movements. 
 
-+ Proprioception: 
-
-
++ Proprioception: is a sense that provides information of muscle tension, joint location, and the movement of the body parts. For example, according to [[3]](#3), human eyeballs are controlled by six extraocular muscles (EOMs), and proprioception is the sense of those six muscles and to tell in which direction is the eyeball pointing at, which is important for locating objects in surrounding environment. Robots can be equipped with proprioception in different ways, and is yet to be rigorously defined. Robotic proprioception is usually achieved by internal sensors like IMU, which typically includes accelerometer and gyroscope that were discussed in the previous point (Balance/Vestibular Sense). Depending on the acutation method, proprioception can be achieved differently. For example, Zou et. al in [[4]] developed a method to determine strength of grip by sensing the fluid pressure in pneumatic actuators to achieve robust manipulation of delicate deformable objects without no embedded sensors on the end effector. 
 
 
 
@@ -33,4 +31,9 @@ As the development of robotics progress, the increasing need for automation brin
 
 # Citation
 <a id="1">[1]</a> : Groove, “Sense of Touch, Skin Receptors, Skin Sensations, Somatosensory System,” Home Science Tools Resource Center. Accessed: Mar. 10, 2025. [Online]. Available: https://learning-center.homesciencetools.com/article/skin-touch/
+
 <a id="2">[2]</a> : InformedHealth.org [Internet]. Cologne, Germany: Institute for Quality and Efficiency in Health Care (IQWiG); 2006-. In brief: How does our sense of balance work? [Updated 2023 Sep 25]. Available from: https://www.ncbi.nlm.nih.gov/books/NBK279394/
+
+<a id="3">[3]</a> :  R. Blumer, G. Carrero-Rojas, R. R. De La Cruz, J. Streicher, and A. M. Pastor, “Extraocular Muscles: Proprioception and Proprioceptors,” in Reference Module in Neuroscience and Biobehavioral Psychology, Elsevier, 2024, p. B9780443138201000281. doi: 10.1016/B978-0-443-13820-1.00028-1.
+
+<a id="4">[4]</a> :  S. Zou, S. Picella, J. de Vries, V. G. Kortman, A. Sakes, and J. T. B. Overvelde, “A retrofit sensing strategy for soft fluidic robots,” Nat Commun, vol. 15, no. 1, p. 539, Jan. 2024, doi: 10.1038/s41467-023-44517-z.
