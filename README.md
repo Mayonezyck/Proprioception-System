@@ -22,7 +22,7 @@ As the development of robotics progress, the increasing need for automation brin
 + Smell/Olfaction
 + Balance/Vestibular Sense: Human sense of balance comes from the vestibular system in our ear. Three semicircular canals enables the sense of turning of head in three different directions; the otolith organs detects the change of linear movement. [[2]](#2) Robots can be equipped with accelerometers and gyroscopes to detect the six movements. 
 
-+ Proprioception: is a sense that provides information of muscle tension, joint location, and the movement of the body parts. For example, according to [[3]](#3), human eyeballs are controlled by six extraocular muscles (EOMs), and proprioception is the sense of those six muscles and to tell in which direction is the eyeball pointing at, which is important for locating objects in surrounding environment. Robots can be equipped with proprioception in different ways, and is yet to be rigorously defined. Robotic proprioception is usually achieved by internal sensors like IMU, which typically includes accelerometer and gyroscope that were discussed in the previous point (Balance/Vestibular Sense). Depending on the acutation method, proprioception can be achieved differently. For example, Zou et. al in [[4]] developed a method to determine strength of grip by sensing the fluid pressure in pneumatic actuators to achieve robust manipulation of delicate deformable objects without no embedded sensors on the end effector. 
++ Proprioception: is a sense that provides information of muscle tension, joint location, and the movement of the body parts. For example, according to [[3]](#3), human eyeballs are controlled by six extraocular muscles (EOMs), and proprioception is the sense of those six muscles and to tell in which direction is the eyeball pointing at, which is important for locating objects in surrounding environment. Robots can be equipped with proprioception in different ways, and is yet to be rigorously defined. Robotic proprioception is usually achieved by internal sensors like IMU, which typically includes accelerometer and gyroscope that were discussed in the previous point (Balance/Vestibular Sense). Depending on the acutation method, proprioception can be achieved differently. For example, Zou et. al in [[4]](#4) developed a method to determine strength of grip by sensing the fluid pressure in pneumatic actuators to achieve robust manipulation of delicate deformable objects without no embedded sensors on the end effector. On traditional robotics systems actuated by servo motors, usually electrical current drawn by the motor and the encoder signal is used for proprioception. Proprioception is mostly implemented in soft robotics and qudropedal robots. [[5-12]](#5)
 
 
 
@@ -37,3 +37,19 @@ As the development of robotics progress, the increasing need for automation brin
 <a id="3">[3]</a> :  R. Blumer, G. Carrero-Rojas, R. R. De La Cruz, J. Streicher, and A. M. Pastor, “Extraocular Muscles: Proprioception and Proprioceptors,” in Reference Module in Neuroscience and Biobehavioral Psychology, Elsevier, 2024, p. B9780443138201000281. doi: 10.1016/B978-0-443-13820-1.00028-1.
 
 <a id="4">[4]</a> :  S. Zou, S. Picella, J. de Vries, V. G. Kortman, A. Sakes, and J. T. B. Overvelde, “A retrofit sensing strategy for soft fluidic robots,” Nat Commun, vol. 15, no. 1, p. 539, Jan. 2024, doi: 10.1038/s41467-023-44517-z.
+
+<a id="5">[5]</a> :  W. Ouyang, L. He, A. Albini, and P. Maiolino, “A Modular Soft Robotic Arm with Embedded Tactile Sensors for Proprioception,” in 2022 IEEE 5th International Conference on Soft Robotics (RoboSoft), Edinburgh, United Kingdom: IEEE, Apr. 2022, pp. 919–924. doi: 10.1109/RoboSoft54090.2022.9762156.
+
+<a id="6">[6]</a> :  J. Han, G. Waddington, R. Adams, J. Anson, and Y. Liu, “Assessing proprioception: A critical review of methods,” Journal of Sport and Health Science, vol. 5, no. 1, pp. 80–90, Mar. 2016, doi: 10.1016/j.jshs.2014.10.004.
+
+<a id="7">[7]</a> :  Z. Fu, A. Kumar, A. Agarwal, H. Qi, J. Malik, and D. Pathak, “Coupling Vision and Proprioception for Navigation of Legged Robots,” IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2022.
+
+<a id="8">[8]</a> :  R. L. Truby, C. D. Santina, and D. Rus, “Distributed Proprioception of 3D Configuration in Soft, Sensorized Robots via Deep Learning,” IEEE Robot. Autom. Lett., vol. 5, no. 2, pp. 3299–3306, Apr. 2020, doi: 10.1109/LRA.2020.2976320.
+
+<a id="9">[9]</a> :  M. Elnoor, A. J. Sathyamoorthy, K. Weerakoon, and D. Manocha, “ProNav: Proprioceptive Traversability Estimation for Legged Robot Navigation in Outdoor Environments,” 2023, arXiv. doi: 10.48550/ARXIV.2307.09754.
+
+<a id="10">[10]</a> :  Y. Yang, J. Norby, J. K. Yim, and A. M. Johnson, “Proprioception and Tail Control Enable Extreme Terrain Traversal by Quadruped Robots,” 2023, arXiv. doi: 10.48550/ARXIV.2303.04781.
+
+<a id="11">[11]</a> :  X. Xu, D. Bauer, and S. Song, “RoboPanoptes: The All-seeing Robot with Whole-body Dexterity,” 2025, arXiv. doi: 10.48550/ARXIV.2501.05420.
+
+<a id="12">[12]</a> :  B. S. Homberg, R. K. Katzschmann, M. R. Dogar, and D. Rus, “Robust proprioceptive grasping with a soft robot hand,” Auton Robot, vol. 43, no. 3, pp. 681–696, Mar. 2019, doi: 10.1007/s10514-018-9754-1.
