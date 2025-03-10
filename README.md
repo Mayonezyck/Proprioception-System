@@ -16,14 +16,21 @@ As the development of robotics progress, the increasing need for automation brin
 
 + Audition/Sound
 
-+ Touch/Somatosensation
-Human has a very delicate organ, skin, as the sensor of touch. A huge network of nerve endings and touch receptors are distributed around in the skin, that returns all the touch sensation, including temperature, friction, pressure, tickle, pain, vibrations, etc. [[1]](1) In robots
++ Touch/Somatosensation: Human has a very delicate organ, skin, as the sensor of touch. A huge network of nerve endings and touch receptors are distributed around in the skin, that returns all the touch sensation, including temperature, friction, pressure, tickle, pain, vibrations, etc. [[1]](#1) In robots, touch is a rather under-developed area, yet is a rapidly moving research area. There are labs developing capacitive and resistive sensors; Gelsight is developed and commercialized recent years and those optic-based sensors are becoming trendy in labs and hobbists because their high precision and plug-and-play features. There are other kinds of force and haptic sensors, but not exhaustively listed here. 
 
 + Taste/Gustation
 + Smell/Olfaction
-+ Balance/Vestibular Sense
-+ Proprioception
++ Balance/Vestibular Sense: Human sense of balance comes from the vestibular system in our ear. Three semicircular canals enables the sense of turning of head in three different directions; the otolith organs detects the change of linear movement. [[2]](#2) Robots can be equipped with accelerometers and gyroscopes to detect the six movements. 
+
++ Proprioception: 
+
+
+
+
+
+
 
 
 # Citation
 <a id="1">[1]</a> : Groove, “Sense of Touch, Skin Receptors, Skin Sensations, Somatosensory System,” Home Science Tools Resource Center. Accessed: Mar. 10, 2025. [Online]. Available: https://learning-center.homesciencetools.com/article/skin-touch/
+<a id="2">[2]</a> : InformedHealth.org [Internet]. Cologne, Germany: Institute for Quality and Efficiency in Health Care (IQWiG); 2006-. In brief: How does our sense of balance work? [Updated 2023 Sep 25]. Available from: https://www.ncbi.nlm.nih.gov/books/NBK279394/
