@@ -28,7 +28,7 @@ As the development of robotics progress, the increasing need for automation brin
 ### Deformable object manipulation matters
 After talking about the different sensors we can provide to the robots, we wonder, what we can do with robots? Why robots can have super human performance on a lot of tasks, such as identifying the tiny defect on products, thanks to computer vision algorithms, or perform high difficulty movements such as backflip, they still cannot help us at home with chores like cleaning the dishes and washing the clothes? Lack of robustness interacting with deformable and delicate objects is a long existing unsolved problem. Such deformable object is everywhere in our daily life, fruits, fabric, and human tissue. Robots need to know how to properly interact with them so that to safely be around them. We don't want to break a bone or two when asking for a massage. It's tricky though since every item is kinda different and there's a chance that two items looks trivially different in visual cues but are totally different when touched. Vision alone is not able to provide enough textile knowledge, physical contact is required. Chin et. al in their work developed a gripper and a classifier to distinguish paper, plastic, and metal using touch only. [[13]](#13) Sankar et al. developed a hybrid robotic prosthetic hand that takes advantage of the tactile sensor on the finger tip to achieve a 98.38% average classification accuracy in a texture discrimination task, (in other words, knows what it's touching) and can adaptively grip avoid damaging the object. [[14]](#14) 
 
-Less 
+The most recent and related work is from Patni et al., they explored the potential and limitations of using standard robotic grippers to estimate the elasiticity and viscoelasticity of deformable materials. 
 
 
 
@@ -60,3 +60,5 @@ Less
 <a id="13">[13]</a> :  L. Chin, J. Lipton, M. C. Yuen, R. Kramer-Bottiglio, and D. Rus, “Automated Recycling Separation Enabled by Soft Robotic Material Classification,” in 2019 2nd IEEE International Conference on Soft Robotics (RoboSoft), Apr. 2019, pp. 102–107. doi: 10.1109/ROBOSOFT.2019.8722747.
 
 <a id="14">[14]</a> :  S. Sankar et al., “A natural biomimetic prosthetic hand with neuromorphic tactile sensing for precise and compliant grasping,” Sci. Adv., vol. 11, no. 10, p. eadr9300, Mar. 2025, doi: 10.1126/sciadv.adr9300.
+
+<a id="15">[15]</a> :  S. P. Patni, P. Stoudek, H. Chlup, and M. Hoffmann, “Online elasticity estimation and material sorting using standard robot grippers,” Int J Adv Manuf Technol, vol. 132, no. 11–12, pp. 6033–6051, Jun. 2024, doi: 10.1007/s00170-024-13678-6.
