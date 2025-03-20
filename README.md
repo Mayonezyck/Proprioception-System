@@ -1,4 +1,4 @@
-# deformable_explore
+# Proprioception System
 This Repository is for me to work at the robot both at home and at work.
 There will be a mix of projects in this repo, but the entire point is to have this repository be a box for all the tools that I made so far about the deformable object mainpulation project. 
 
