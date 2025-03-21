@@ -1,0 +1,14 @@
+camera:
+  resolution:
+    width: 640
+    height: 480
+  frame_rate: 30
+  color:
+    enabled: true
+    format: RGB8
+  depth:
+    enabled: true
+    format: Z16
+  infrared:
+    enabled: false
+  advanced_mode: false
