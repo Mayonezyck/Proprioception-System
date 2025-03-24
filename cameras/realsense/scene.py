@@ -4,6 +4,8 @@ from ultralytics import YOLO
 import threading
 import time
 
+# Cite https://github.com/isl-org/Open3D/discussions/5953
+
 class Scene:
     GEOM_NAME = "Global Map"
     def __init__(self,camera, update_delay = -1):
@@ -57,12 +59,6 @@ class Scene:
     def on_main_window_tick_event(self):
         print("tick")
         return self.decaying()
-    '''def add_depth_image_random(self):
-        print('Adding random depth image to scene...')
-        depth_image = np.random.randint(0, 1000, (480, 640)).astype(np.float32)
-        mask = np.random.randint(0, 2, (480, 640)).astype(bool)
-        intrinsics = np.array([[525.0, 0.0, 319.5], [0.0, 525.0, 239.5], [0.0, 0.0, 1.0]])
-        self.add_depth_image(depth_image, mask, intrinsics)'''
     
     def update_point_cloud(self):
         self.add_depth_image()
@@ -127,48 +123,6 @@ class Scene:
             
             # Merge with global map
             self.global_map += point_cloud
-
-    def display(self):
-        vis = o3d.visualization.Visualizer()
-        vis.create_window(window_name="Global Map", width=800, height=600)
-        vis.add_geometry(self.global_map)
-        vis.run()
-        counter = 0
-        while True:
-            counter += 1
-            #print('Displaying global map...')
-            intrinsics = self.camera.intrinsics
-            depth_image = self.camera.get_depth_image()
-            color_image = self.camera.get_color_image()
-            mask = self.getMask()
-            if mask is not None and counter % 90 == 0:
-                self.add_depth_image(depth_image, color_image, mask, intrinsics)
-            #print(f'Point cloud size: {len(self.global_map.points)}')
-            if counter % 1000 == 0:
-                print('Decaying colors...')
-                self.decaying()
-                self.delete_points(0.2)
-            if counter % 2 == 0:
-                vis.update_geometry(self.global_map)
-                vis.poll_events()
-                vis.update_renderer()
-            
-
-    def test_display_static_pointcloud(self):
-        # Create a static point cloud
-        intrinsics = self.camera.intrinsics
-        depth_image = self.camera.get_depth_image()
-        color_image = self.camera.get_color_image()
-        mask = self.getMask()
-        print(f'Depth image shape: {depth_image.shape}')
-        print(f'Color image shape: {color_image.shape}')
-        print(f'Mask shape: {mask.shape}')
-        
-        vis = o3d.visualization.Visualizer()
-        vis.create_window(window_name="Static Point Cloud", width=800, height=600)
-        vis.add_geometry(self.global_map)
-        vis.run()
-        vis.destroy_window()
 
     def getMask(self):
         frames = self.camera.get_frames()

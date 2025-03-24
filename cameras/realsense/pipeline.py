@@ -2,7 +2,6 @@ from cam_realsense import RealSenseCamera
 from scene import Scene
 import numpy as np
 import yaml
-import cv2
 import open3d as o3d
 
 def main():
