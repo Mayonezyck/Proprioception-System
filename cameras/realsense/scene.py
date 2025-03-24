@@ -5,6 +5,7 @@ import threading
 import time
 
 class Scene:
+    GEOM_NAME = "Global Map"
     def __init__(self,camera, update_delay = -1):
         self.global_map = o3d.geometry.PointCloud()
         self.camera = camera
@@ -30,7 +31,7 @@ class Scene:
         self.geom_mat.shader = 'defaultUnlit'
         self.geom_mat.point_size = 2.0
 
-        self.widget.scene.add_geometry('Global Map', self.global_map)
+        self.widget.scene.add_geometry(self.GEOM_NAME, self.global_map, self.geom_mat)
 
         self.widget.setup_camera(60, self.widget.scene.bounding_box, [0, 0, 0])
     
@@ -55,7 +56,7 @@ class Scene:
         return True  # False would cancel the close
     def on_main_window_tick_event(self):
         print("tick")
-        return self.update_point_cloud()
+        return self.decaying()
     '''def add_depth_image_random(self):
         print('Adding random depth image to scene...')
         depth_image = np.random.randint(0, 1000, (480, 640)).astype(np.float32)
@@ -63,10 +64,19 @@ class Scene:
         intrinsics = np.array([[525.0, 0.0, 319.5], [0.0, 525.0, 239.5], [0.0, 0.0, 1.0]])
         self.add_depth_image(depth_image, mask, intrinsics)'''
     
+    def update_point_cloud(self):
+        self.add_depth_image()
+        temp = self.global_map
+        self.widget.enable_scene_caching(False)
+        self.widget.scene.remove_geometry(self.GEOM_NAME)
+        self.widget.scene.add_geometry(self.GEOM_NAME, temp, self.geom_mat)
+        self.decaying()
     def decaying(self):
+        print('Decaying colors...')
         colors = np.asarray(self.global_map.colors)
         colors = np.clip(colors - 5 / 255.0, 0, 1)
         self.global_map.colors = o3d.utility.Vector3dVector(colors)
+        self.delete_points(0.2)
     
     def delete_points(self,death_threshold):
         colors = np.asarray(self.global_map.colors)
