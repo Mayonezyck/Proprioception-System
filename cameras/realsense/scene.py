@@ -1,8 +1,10 @@
 import open3d as o3d
 import numpy as np
 from ultralytics import YOLO
+from globalMap import GlobalMap
 import threading
 import time
+import copy
 
 # Cite https://github.com/isl-org/Open3D/discussions/5953
 
@@ -12,11 +14,16 @@ class Scene:
         self.global_map = o3d.geometry.PointCloud()
         self.camera = camera
         self.model = YOLO("yolo11x-seg.pt")
-
+        self.timeout = 1000
+        self.timeout_counter = 0
+        self.color_assigned = None
+        self.object_list = []
+        self.separate_points = []
         self.update_delay = update_delay
         self.is_done = False
         self.lock = threading.Lock()
-
+        self.cache_counter = 0
+        self.point_cache = o3d.geometry.PointCloud()
         self.app = o3d.visualization.gui.Application.instance
         self.window = self.app.create_window("Open3D Python App", width=800, height=600, x=0, y=30)
         self.window.set_on_close(self.on_main_window_closing)
@@ -54,15 +61,21 @@ class Scene:
 
     def update_thread(self):
             def do_update():
-                return self.update_point_cloud()
+                return self.boo()
 
             while not self.is_done:
                 time.sleep(self.update_delay)
-                print("update_thread")
+                print("In update_thread")
                 with self.lock:
                     if self.is_done:  # might have changed while sleeping.
+                        self.save_map()
                         break
+                    self.timeout_counter += 1
+                    if self.timeout_counter > self.timeout:
+                        self.is_done = True
                     o3d.visualization.gui.Application.instance.post_to_main_thread(self.window, self.update_point_cloud)
+    def boo(self):
+        print("Boo")
     def on_main_window_closing(self):
         with self.lock:
             self.is_done = True
@@ -72,22 +85,40 @@ class Scene:
         print("tick")
         return self.decaying()
     
+    def cache_global_map(self):
+        print('Caching global map...')
+        self.point_cache = copy.deepcopy(self.global_map)
+
     def update_point_cloud(self):
+        if self.cache_counter % 5 == 0 and self.point_cache is not None:
+            point_cached = self.point_cache
+            if self.check_converge(point_cached):
+                self.is_done = True
+                return
+            self.cache_global_map()
+            self.cache_counter = 0
+        elif self.point_cache is None:
+            print('Cache is empty')
+            self.cache_global_map()
+        self.cache_counter += 1
         self.add_depth_image()
         temp = self.global_map
+        print('Updating point cloud...')
+        print('Global Map length',len(self.global_map.points))
+        
         self.widget.enable_scene_caching(False)
         self.widget.scene.remove_geometry(self.GEOM_NAME)
         self.widget.scene.add_geometry(self.GEOM_NAME, temp, self.geom_mat)
         self.decaying()
 
     def decaying(self):
-        print('Decaying colors...')
-        colors = np.asarray(self.global_map.colors)
-        print(colors)
-        colors = np.clip(colors - 5 / 255.0, 0, 1)
-        print(colors)
-        self.global_map.colors = o3d.utility.Vector3dVector(colors)
-        self.delete_points(0.2)
+        if not self.is_done:
+            print('Decaying colors...')
+            colors = np.asarray(self.global_map.colors)
+            #print(colors)
+            colors = np.clip(colors - 5 / 255.0, 0, 1)
+            self.global_map.colors = o3d.utility.Vector3dVector(colors)
+            self.delete_points(0.2)
     
     def delete_points(self,death_threshold):
         colors = np.asarray(self.global_map.colors)
@@ -130,25 +161,36 @@ class Scene:
                             counter += 1
             separate_points.append(counter)
         self.color_assigned = self.assign_color(separate_points)
-        print(self.color_assigned)
+        #print(self.color_assigned)
         # Create point cloud from points
         starting_point = 0  
+        self.separate_points = separate_points
+        print('Separate points:', separate_points)
+        print(len(points))
         if points:
-            for i in range(len(self.color_assigned)):
-                points_parts = np.array(points[starting_point:separate_points[i]])
-                starting_point = separate_points[i]
-                #colors = np.full(points.shape, 127 / 255.0)  # Assign color with 127
-                colors_parts = np.full(points_parts.shape, self.color_assigned[i])  # Assign color with RGBA
-                # colors = color_image[mask]
-                # colors = colors / 255.0  # Normalize colors to [0, 1]
-                points_trimed, colors_trimed = self.trim_points(points_parts, colors_parts, 0.1)
+            for i in range(len(self.color_assigned)+1):
+                print(i)
+                if i == len(self.color_assigned):                    
+                    points_parts = np.array(points[starting_point:])
+                    print('Last part:', len(points_parts))
+                else:
+                    points_parts = np.array(points[starting_point:separate_points[i]])
+                    starting_point = separate_points[i]
+                if points_parts.size != 0:
+                    #colors = np.full(points.shape, 127 / 255.0)  # Assign color with 127
+                    #colors_parts = np.full(points_parts.shape, self.color_assigned[i])  # Assign color with RGBA
+                    colors_parts = np.full(points_parts.shape, 127/255.0)  # Assign color with RGBA
 
-                point_cloud = o3d.geometry.PointCloud()
-                point_cloud.points = o3d.utility.Vector3dVector(points_trimed)
-                point_cloud.colors = o3d.utility.Vector3dVector(colors_trimed)
-                
-                # Merge with global map
-                self.global_map += point_cloud
+                    # colors = color_image[mask]
+                    # colors = colors / 255.0  # Normalize colors to [0, 1]
+                    points_trimed, colors_trimed = self.trim_points(points_parts, colors_parts, 0.1)
+
+                    point_cloud = o3d.geometry.PointCloud()
+                    point_cloud.points = o3d.utility.Vector3dVector(points_trimed)
+                    point_cloud.colors = o3d.utility.Vector3dVector(colors_trimed)
+                    
+                    # Merge with global map
+                    self.global_map += point_cloud
 
     def assign_color(self, separate_points):
         colors = []
@@ -157,10 +199,13 @@ class Scene:
         for _ in separate_points:
             np.random.seed(seed[seed_count])  # Set a random seed for reproducibility
             seed_count += 1
-            color = np.random.uniform(3)  # Generate a random color in the specified range
+            color = np.random.rand(3)  # Generate a random color
             colors.append(color)
         return np.array(colors)
-
+    
+    def getObjetList(self):
+        return self.object_list
+    
     def getMask(self):
         frames = self.camera.get_frames()
         color_frame = frames.get_color_frame()
@@ -171,14 +216,48 @@ class Scene:
             for result in results:
                 if result.masks is not None:
                     masks = result.masks.data 
-        if masks is not None:
-            for mask in masks:
-                if result_mask is None:
-                    result_mask.append(mask.cpu().numpy) ##mask.cpu().numpy()
-                else:
-                    #result_mask = np.logical_or(result_mask, mask.cpu().numpy())
-                    result_mask.append(mask.cpu().numpy())
+                    if masks is not None:
+                        for mask in masks:
+                            if result_mask is None:
+                                result_mask.append(mask.cpu().numpy) ##mask.cpu().numpy()
+                                result_mask = np.logical_or(result_mask, mask.cpu().numpy())
+                            else:
+                                #result_mask = np.logical_or(result_mask, mask.cpu().numpy())
+                                result_mask.append(mask.cpu().numpy())
+                if result.summary() is not None:
+                    self.object_list = []
+                    for detected in result.summary():
+                        self.object_list.append(detected.get("name"))
+                    
         return result_mask
     
-    
-    
+    def check_converge(self, cached_point_cloud):
+        print(self.cache_counter)
+        print('Checking convergence...!!!'
+        '!!!')
+        
+        prev_points = np.asarray(cached_point_cloud.points)
+        curr_points = np.asarray(self.global_map.points)
+        print('Previous points length:', len(prev_points))
+        print('Current points length:', len(curr_points))
+        length_dif_threshold = 5  # Define a threshold for point length
+        if abs(len(prev_points) - len(curr_points)) > length_dif_threshold:
+            print('unmatched points length')
+            return False
+
+        # distance_threshold = 0.01  # Define a threshold for point distance
+        # distances = np.linalg.norm(prev_points - curr_points, axis=1)
+        # if np.any(distances > distance_threshold):
+        #     print('unmatched points')
+        #     return False
+
+        return True
+        
+    def save_map(self):
+        print('Saving global map...')
+        o3d.io.write_point_cloud('global_map.ply', self.global_map)
+        print('Global map saved to global_map.ply')
+
+    def return_map(self):
+        #print(len(self.color_assigned))
+        return len(self.color_assigned),self.separate_points, self.global_map
