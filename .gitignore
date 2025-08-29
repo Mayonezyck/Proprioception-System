@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+# Package
+
+arms/wx250/gsrobotics/
+
 # Distribution / packaging
 .Python
 build/
